@@ -1,13 +1,12 @@
-require("dotenv").config();
-const { v4: uuid } = require("uuid");
-const moment = require("moment");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+import {uuid, jwt, bcrypt, Time, env} from "./global.js"
+
+// configure env
+env.config()
 
 const accessSecret = process.env.JWT_ACCESS_SECRET;
 const refreshSecret = process.env.JWT_REFRESH_SECRET;
 
-class Util {
+export class Util {
   Error(msg) {
     return new Error(msg);
   }
@@ -20,21 +19,25 @@ class Util {
   getRelativeTime(format) {
     let validFormats = ["day", "hour"];
     if (format === undefined) {
-      return moment().format();
+      return Time().format();
     }
     if (typeof format === Number) {
       return this.Error("Type Error: invalid date format");
     }
     if (!validFormats.includes(format)) {
-      return moment().startOf(validFormats[1]).fromNow();
+      return Time().startOf(validFormats[1]).fromNow();
     }
 
-    return moment().startOf(format).fromNow();
+    return Time().startOf(format).fromNow();
   }
 
   genAccessToken(payload) {
     if (payload === "" || payload === undefined) {
       return this.Error("Access token requires a payload field but got none");
+    }
+
+    if (typeof payload === "string") {
+      return this.Error("expected payload to be an object but got a string");
     }
 
     return jwt.sign(payload, accessSecret, { expiresIn: "7min" });
@@ -43,6 +46,9 @@ class Util {
   genRefreshToken(payload) {
     if (payload === "" || payload === undefined) {
       return this.Error("Refresh token requires a payload field but got none");
+    }
+    if (typeof payload === "string") {
+      return this.Error("expected payload to be an object but got a string");
     }
     return jwt.sign(payload, refreshSecret, { expiresIn: "1yr" });
   }
@@ -108,5 +114,3 @@ class Error {
     this.name = "Error";
   }
 }
-
-module.exports = new Util();
