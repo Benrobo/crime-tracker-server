@@ -1,11 +1,7 @@
-const express = require("express");
-const router = express.Router();
-
-const auth = require("../services/auth");
-const util = require("../util");
+import {app, router} from "../helpers/global.js"
 
 router.post("/login", async (req, res) => {
   let data = req.body;
 });
 
-module.exports = router;
+export default router;
