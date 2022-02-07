@@ -1,8 +1,8 @@
 import dotenv from "dotenv"
-import {app, PATH, FS, __dirname} from "./helpers/global.js"
+import { app, PATH, FS, __dirname } from "./helpers/global.js"
 import bodyParser from "body-parser"
 import cors from "cors"
-import { login, register } from "./routes/index.js"
+import { registerUser, registerAdmin } from "./routes/auth.js"
 
 
 dotenv.config();
@@ -28,7 +28,8 @@ app.get("/", (req, res) => {
   });
 });
 
-app.use("/api/", login);
+app.use(registerUser);
+app.use(registerAdmin);
 
 // listen on a htp port to run and start the server
 const PORT = process.env.PORT || 5000;

@@ -1,7 +1,8 @@
-import {uuid, jwt, bcrypt, Time, env} from "./global.js"
+import { uuid, jwt, bcrypt, Time } from "./global.js"
+import dotenv from "dotenv"
 
 // configure env
-env.config()
+dotenv.config()
 
 const accessSecret = process.env.JWT_ACCESS_SECRET;
 const refreshSecret = process.env.JWT_REFRESH_SECRET;
@@ -14,6 +15,18 @@ export class Util {
   genId() {
     const id = uuid();
     return id;
+  }
+
+  genCode() {
+    let num = "0123456789".split("")
+    let code = ""
+
+    for (let i = 1; i < 7; i++) {
+      let rand = Math.floor(Math.random() * num.length)
+      code += num[rand]
+    }
+    return code;
+
   }
 
   getRelativeTime(format) {
