@@ -5,11 +5,11 @@ import moment from "moment";
 import { randomUUID } from "crypto";
 import bcryptjs from "bcryptjs";
 import jsonwebtoken from "jsonwebtoken";
-// import { conn } from "../model/db.js";
+import { conn } from "../model/db.js";
 import { Util } from "./index.js";
 
 
-// export const db = conn;
+export const db = conn;
 export const util = new Util()
 export const PATH = path;
 export const FS = fs;

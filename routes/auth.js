@@ -5,11 +5,33 @@ import API_ROUTE from "../api-routes/index.js"
 const regAuth = new RegisterAuth()
 
 export const registerUser = router.post(API_ROUTE.userAuth, async (req, res) => {
-    let data = req.body;
+    try {
+        let data = req.body;
+        if (!data || data === "" || typeof data === "function" || typeof data === "string" || data === null) {
+            return util.sendJson(res, { message: "failed: payload is required" }, 400)
+        }
+        if (Object.entries(data).length === 0) {
+            return util.sendJson(res, { message: "authentication required a valid payload but got none" }, 404)
+        }
+        return regAuth.officerAuth(res, data)
+    } catch (err) {
+        return util.sendJson(res, { message: err.message }, 500)
+    }
 });
 
 export const registerAdmin = router.post(API_ROUTE.adminAuth, async (req, res) => {
-    let data = req.body;
+    try {
+        let data = req.body;
+        if (!data || data === "" || typeof data === "function" || typeof data === "string" || data === null) {
+            return util.sendJson(res, { message: "failed: payload is required" }, 400)
+        }
+        if (Object.entries(data).length === 0) {
+            return util.sendJson(res, { message: "authentication required a valid payload but got none" }, 404)
+        }
+        return regAuth.adminAuth(res, data)
+    } catch (err) {
+        return util.sendJson(res, { message: err.message }, 500)
+    }
 });
 
 

@@ -44,6 +44,21 @@ export class Util {
     return Time().startOf(format).fromNow();
   }
 
+  formatDate(format = "") {
+    // format = "MMM Do YYYY | dddd | MMM Do YY | empty "
+    if (format === undefined) {
+      return Time().format();
+    }
+    if (typeof format === Number) {
+      return this.Error("Type Error: invalid date format");
+    }
+    if (!format || format === "" || format === null || format === undefined) {
+      return Time().format("MMM Do YY");
+    }
+
+    return Time().format(format);
+  }
+
   genAccessToken(payload) {
     if (payload === "" || payload === undefined) {
       return this.Error("Access token requires a payload field but got none");
@@ -93,6 +108,13 @@ export class Util {
     if (!tester.test(email)) return false;
 
     return true;
+  }
+
+  validatePhonenumber(phoneNumber) {
+    if (!phoneNumber) return false;
+    const regexp =
+      /^\+{0,2}([\-\. ])?(\(?\d{0,3}\))?([\-\. ])?\(?\d{0,3}\)?([\-\. ])?\d{3}([\-\. ])?\d{4}/;
+    return regexp.test(phoneNumber);
   }
 
   randomImages(seeds) {
