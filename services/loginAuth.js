@@ -37,7 +37,7 @@ export default class LogInAuth {
 
                     // verify password
                     if (util.compareHash(data.password, result.rows[0].hash) === false) {
-                        return util.sendJson(res, { error: false, message: "password given is incorrect" }, 404)
+                        return util.sendJson(res, { error: false, message: "password given is incorrect" }, 403)
                     }
 
                     // update data
