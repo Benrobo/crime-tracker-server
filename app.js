@@ -3,6 +3,7 @@ import { app, PATH, FS, __dirname } from "./helpers/global.js"
 import bodyParser from "body-parser"
 import cors from "cors"
 import { registerUser, registerAdmin, logInUsers } from "./routes/auth.js"
+import { approveRegRequest, rejectRegRequest } from "./routes/grantRequest.js"
 
 
 dotenv.config();
@@ -31,6 +32,8 @@ app.get("/", (req, res) => {
 app.use(registerUser);
 app.use(registerAdmin);
 app.use(logInUsers);
+app.use(approveRegRequest);
+app.use(rejectRegRequest);
 
 // listen on a htp port to run and start the server
 const PORT = process.env.PORT || 5000;

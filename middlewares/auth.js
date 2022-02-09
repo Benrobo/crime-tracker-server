@@ -1,10 +1,10 @@
-const jwt = require("jsonwebtoken")
+import { jwt } from "../helpers/global.js"
 
-function checkAuth(req, res, next){
+export function checkAuth(req, res, next) {
     let tokens = req.headers["authorization"];
-    
-    if(!tokens){
-        return res.status(400).json({msg: "Authorization header is required"})
+
+    if (!tokens) {
+        return res.status(400).json({ msg: "Authorization header is required" })
     }
     try {
         let bearer = tokens.split(" ")[1];
@@ -14,10 +14,6 @@ function checkAuth(req, res, next){
         next()
     } catch (e) {
         console.log(e)
-        return res.status(400).json({msg: "Invalid token"})
+        return res.status(400).json({ msg: "Invalid token" })
     }
-}
-
-module.exports = {
-    checkAuth
 }
