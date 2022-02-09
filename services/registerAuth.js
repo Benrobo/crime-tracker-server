@@ -41,7 +41,7 @@ export default class RegisterAuth {
                     }
 
                     if (result.rowCount > 0) {
-                        return util.sendJson(res, { error: false, message: "officer with that email or phone number already exists" }, 400)
+                        return util.sendJson(res, { error: true, message: "officer with that email or phone number already exists" }, 400)
                     }
 
                     // insert data
@@ -65,7 +65,7 @@ export default class RegisterAuth {
                 })
             } catch (err) {
                 console.log(err);
-                return util.sendJson(res, { error: false, message: err.message }, 500)
+                return util.sendJson(res, { error: true, message: err.message }, 500)
             }
         }
 
@@ -108,7 +108,7 @@ export default class RegisterAuth {
                     }
 
                     if (result.rowCount > 0) {
-                        return util.sendJson(res, { error: false, message: "officer with that email or phone number already exists" }, 400)
+                        return util.sendJson(res, { error: true, message: "officer with that email or phone number already exists" }, 400)
                     }
 
                     // insert data
@@ -132,7 +132,7 @@ export default class RegisterAuth {
                 })
             } catch (err) {
                 console.log(err);
-                return util.sendJson(res, { error: false, message: err.message }, 500)
+                return util.sendJson(res, { error: true, message: err.message }, 500)
             }
         }
     }
