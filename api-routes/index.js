@@ -6,6 +6,7 @@ const API_ROUTE = {
     logIn: "/api/auth/users/logIn",
     approveRegRequest: "/api/users/request/registeration",
     rejectRegRequest: "/api/users/request/registeration/reject",
+    addCase: "/api/cases/add",
 }
 
 export default API_ROUTE;

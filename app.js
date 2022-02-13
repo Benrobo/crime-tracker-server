@@ -4,7 +4,7 @@ import bodyParser from "body-parser"
 import cors from "cors"
 import { registerUser, registerAdmin, logInUsers } from "./routes/auth.js"
 import { approveRegRequest, rejectRegRequest } from "./routes/grantRequest.js"
-
+import AddCase from "./routes/case.js"
 
 dotenv.config();
 // main middlewares
@@ -32,6 +32,7 @@ app.get("/", (req, res) => {
 app.use(registerUser);
 app.use(registerAdmin);
 app.use(logInUsers);
+app.use(AddCase);
 app.use(approveRegRequest);
 app.use(rejectRegRequest);
 
