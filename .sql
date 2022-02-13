@@ -21,11 +21,11 @@
 
 2. CREATE TABLE "cases"(
     id TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "userId" TEXT NOT NULL primary key,
-    "userName" TEXT NOT NULL,
+    "caseName" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "officerId" TEXT NOT NULL,
     "note" TEXT NOT NULL,
-    "create_at" TEXT NOT NULL
+    "created_at" TEXT NOT NULL
 );
 
 3. CREATE TABLE "prediction"(
