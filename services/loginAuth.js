@@ -45,10 +45,11 @@ export default class LogInAuth {
                         id: result.rows[0].userId,
                         type: result.rows[0].userType,
                         role: result.rows[0].userRole,
+                        rank: result.rows[0].userRank,
                         status: result.rows[0].userStatus,
                     }
                     const refreshToken = util.genRefreshToken(tokenPayload)
-                    const accessToken = util.genAccessToken(tokenPayload)
+                    // const accessToken = util.genAccessToken(tokenPayload)
                     const sql2 = `UPDATE users SET "refreshToken"=$1 WHERE mail=$2`
                     db.query(sql2, [refreshToken, data.email], (err) => {
                         if (err) {

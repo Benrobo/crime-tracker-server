@@ -12,7 +12,7 @@
     "mail" TEXT NOT NULL unique,
     "phoneNumber" TEXT NOT NULL,
     "hash" TEXT NOT NULL,
-    "userType" TEXT NOT NULL,
+    "userRank" TEXT NOT NULL,
     "userRole" TEXT NOT NULL,
     "userStatus" TEXT NOT NULL,
     "refreshToken" TEXT NOT NULL,
