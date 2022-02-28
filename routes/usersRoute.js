@@ -1,58 +1,60 @@
 import { router, util } from "../helpers/global.js"
-import Cases from "../services/cases.js"
+import Users from "../services/users.js"
 import API_ROUTE from "../api-routes/index.js"
 import { checkAuth } from "../middlewares/auth.js";
 
-const cases = new Cases();
+const users = new Users();
 
-export const getCases = router.post(API_ROUTE.getCases, checkAuth, (req, res) => {
+export const getOfficers = router.post(API_ROUTE.getOfficers, checkAuth, (req, res) => {
     try {
-        return cases.allCases(res)
+        return users.getAllUsers(res)
     } catch (err) {
         return util.sendJson(res, { message: err.message }, 500)
     }
 })
 
-export const AddCase = router.post(API_ROUTE.addCase, checkAuth, (req, res) => {
+export const getOfficersId = router.post(API_ROUTE.getOfficersId, checkAuth, (req, res) => {
+    try {
+        let data = req.body;
+        console.log(data);
+        if (!data || data === "" || typeof data === "function" || typeof data === "string" || data === null) {
+            return util.sendJson(res, { message: "failed: payload is required" }, 400)
+        }
+        if (Object.entries(data).length === 0) {
+            return util.sendJson(res, { message: "fetching an officer required a valid payload but got none" }, 404)
+        }
+        return users.getUsersId(res, data)
+    } catch (err) {
+        return util.sendJson(res, { message: err.message }, 500)
+    }
+})
+
+export const editOfficerDetails = router.put(API_ROUTE.editOfficer, checkAuth, (req, res) => {
     try {
         let data = req.body;
         if (!data || data === "" || typeof data === "function" || typeof data === "string" || data === null) {
             return util.sendJson(res, { message: "failed: payload is required" }, 400)
         }
         if (Object.entries(data).length === 0) {
-            return util.sendJson(res, { message: "adding a case required a valid payload but got none" }, 404)
+            return util.sendJson(res, { message: "editing officer details required a valid payload but got none" }, 404)
         }
-        return cases.addCase(res, data)
+        return users.editUsers(res, data)
     } catch (err) {
         return util.sendJson(res, { message: err.message }, 500)
     }
 })
 
-export const editCase = router.put(API_ROUTE.editCase, checkAuth, (req, res) => {
+
+export const deleteOfficer = router.delete(API_ROUTE.deleteOfficer, checkAuth, (req, res) => {
     try {
         let data = req.body;
         if (!data || data === "" || typeof data === "function" || typeof data === "string" || data === null) {
             return util.sendJson(res, { message: "failed: payload is required" }, 400)
         }
         if (Object.entries(data).length === 0) {
-            return util.sendJson(res, { message: "editing a case required a valid payload but got none" }, 404)
+            return util.sendJson(res, { message: "deleting officer acct required a valid payload but got none" }, 404)
         }
-        return cases.editCase(res, data)
-    } catch (err) {
-        return util.sendJson(res, { message: err.message }, 500)
-    }
-})
-
-export const deleteCase = router.delete(API_ROUTE.deleteCase, checkAuth, (req, res) => {
-    try {
-        let data = req.body;
-        if (!data || data === "" || typeof data === "function" || typeof data === "string" || data === null) {
-            return util.sendJson(res, { message: "failed: payload is required" }, 400)
-        }
-        if (Object.entries(data).length === 0) {
-            return util.sendJson(res, { message: "deleting a case required a valid payload but got none" }, 404)
-        }
-        return cases.deleteCase(res, data)
+        return users.deleteOfficer(res, data)
     } catch (err) {
         return util.sendJson(res, { message: err.message }, 500)
     }
