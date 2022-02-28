@@ -53,7 +53,7 @@ export class Util {
       return this.Error("Type Error: invalid date format");
     }
     if (!format || format === "" || format === null || format === undefined) {
-      return Time().format("MMM Do YY");
+      return Time().format("MMM Do YY, hh:mm a");
     }
 
     return Time().format(format);
