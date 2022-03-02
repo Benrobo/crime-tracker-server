@@ -1,0 +1,725 @@
+{
+	"info": {
+		"_postman_id": "6a0fdf09-ca81-4943-8545-7e28f4f82359",
+		"name": "crime-tracker",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "registerUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\": \"john doe\",\r\n    \"email\":\"john@mail.com\",\r\n    \"phoneNumber\": \"07084701066\",\r\n    \"password\": \"1234\",\r\n    \"rank\": \"sergent\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/auth/officer/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"auth",
+						"officer",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "registerAdmin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userName\": \"Mark John\",\r\n    \"email\":\"mark@mail.com\",\r\n    \"phoneNumber\": \"08080815951\",\r\n    \"password\": \"1234\",\r\n    \"rank\": \"lance\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/auth/admin_auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"auth",
+						"admin_auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logIn",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\":\"mark@mail.com\",\r\n    \"password\": \"1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/auth/users/logIn",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"auth",
+						"users",
+						"logIn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "approveOfficerRegisteration",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"62447136-30c3-4f72-a36e-0c638d217c0d\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/request/registeration",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"request",
+						"registeration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rejectOfficerRegisteration Copy",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"62447136-30c3-4f72-a36e-0c638d217c0d\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/request/registeration/reject",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"request",
+						"registeration",
+						"reject"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addCase",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\",\r\n    \"caseId\": \"1002367\",\r\n    \"caseName\":\"murder\",\r\n    \"officerId\":\"7227a498-0baa-445d-9435-0a6e0dedf062\", \r\n    \"note\": \"dfvdfv\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/cases/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"cases",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCases",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/cases/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"cases",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editCase",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\",\r\n    \"caseId\": \"1002367\",\r\n    \"caseName\":\"murder 2.0\",\r\n    \"officerId\":\"a6944481-f174-4149-a2e9-a85179a523d5\", \r\n    \"note\": \"updated note\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/cases/edit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"cases",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteCase",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\",\r\n    \"caseId\": \"1002367\",\r\n    \"officerId\": \"a6944481-f174-4149-a2e9-a85179a523d52\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/cases/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"cases",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOfficers",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/officers/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"officers",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getOfficersId",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/officers/id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"officers",
+						"id"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editOfficer",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\",\r\n    \"userName\": \"Mark John 2\",\r\n    \"email\":\"mark@mail.com\",\r\n    \"phoneNumber\": \"08080815951\",\r\n    \"password\": \"1234\",\r\n    \"passwordState\": false,\r\n    \"rank\": \"lance\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/officers/edit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"officers",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteOficer",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/officers/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"officers",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addPrediction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\",\r\n    \"caseId\": \"1002367\",\r\n    \"caseName\":\"murder\",\r\n    \"suspectId\":\"8cef92b4-b69a-4e75-ab72-22594568adf7\", \r\n    \"rank\": 8\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/prediction/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"prediction",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editPrediction",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\",\r\n    \"caseId\": \"1002367\",\r\n    \"caseName\":\"murder\",\r\n    \"officerId\":\"a6944481-f174-4149-a2e9-a85179a523d5\", \r\n    \"note\": \"dfvdfv\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/prediction/edit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"prediction",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deletePrediction",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\",\r\n    \"caseId\": \"1002367\",\r\n    \"predictionId\": \"ac121d31-30d7-436d-892b-580f3a177b12\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/prediction/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"prediction",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getSuspects",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\",\r\n    \"caseId\": \"1002367\",\r\n    \"caseName\":\"murder\",\r\n    \"officerId\":\"a6944481-f174-4149-a2e9-a85179a523d5\", \r\n    \"note\": \"dfvdfv\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/suspects/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"suspects",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addSuspects",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\",\r\n    \"caseId\": \"1002367\",\r\n    \"suspectName\":\"thompson\",\r\n    \"phoneNumber\":\"07084566449\", \r\n    \"address\":\"2 penni street\", \r\n    \"relation\": \"husband\",\r\n    \"note\": \"dfvdfv\",\r\n    \"suspectImg\": \"dfvdfv\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/suspects/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"suspects",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editSuspect",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\",\r\n    \"caseId\": \"1002367\",\r\n    \"caseName\":\"murder\",\r\n    \"officerId\":\"a6944481-f174-4149-a2e9-a85179a523d5\", \r\n    \"note\": \"dfvdfv\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/suspects/edit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"suspects",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteSuspect",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\",\r\n    \"caseId\": \"1002367\",\r\n    \"caseName\":\"murder\",\r\n    \"officerId\":\"a6944481-f174-4149-a2e9-a85179a523d5\", \r\n    \"note\": \"dfvdfv\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/suspects/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"suspects",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUsersID",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
