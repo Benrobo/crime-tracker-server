@@ -33,10 +33,22 @@
     "userId" TEXT NOT NULL primary key,
     "caseName" TEXT NOT NULL,
     "caseId" TEXT NOT NULL,
-    "suspectName" TEXT NOT NULL,
-    "suspectImg" TEXT NOT NULL,
+    "suspectId" TEXT NOT NULL,
     "rank" TEXT NOT NULL,
-    "create_at" TEXT NOT NULL
+    "created_at" TEXT NOT NULL
+);
+
+CREATE TABLE "suspects"(
+    id TEXT NOT NULL unique,
+    "userId" TEXT NOT NULL primary key,
+    "caseId" TEXT NOT NULL,
+    "suspectName" TEXT NOT NULL,
+    "phoneNumber" TEXT NOT NULL,
+    "address" TEXT NOT NULL,
+    "relation" TEXT NOT NULL,
+    "suspectImg" TEXT NOT NULL,
+    "note" TEXT NOT NULL,
+    "created_at" TEXT NOT NULL
 );
 
 4. CREATE TABLE "evidence"(
@@ -47,5 +59,5 @@
     "suspectName" TEXT NOT NULL,
     "suspectId" TEXT NOT NULL,
     "note" TEXT NOT NULL,
-    "create_at" TEXT NOT NULL
+    "created_at" TEXT NOT NULL
 );

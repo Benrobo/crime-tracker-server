@@ -6,6 +6,9 @@ import { registerUser, registerAdmin, logInUsers } from "./routes/auth.js"
 import { approveRegRequest, rejectRegRequest } from "./routes/grantRequest.js"
 import { AddCase, getCases, deleteCase, editCase } from "./routes/caseRoute.js"
 import { getOfficers, getOfficersId, editOfficerDetails, deleteOfficer } from "./routes/usersRoute.js"
+import { addPrediction, deletePrediction } from "./routes/prediction.js"
+import { addSuspect, editSuspects } from "./routes/suspect.js"
+
 
 dotenv.config();
 // main middlewares
@@ -48,6 +51,14 @@ app.use(deleteOfficer)
 // officer approved status
 app.use(approveRegRequest);
 app.use(rejectRegRequest);
+
+// prediction
+app.use(addPrediction)
+app.use(deletePrediction)
+
+// suspects
+app.use(addSuspect)
+app.use(editSuspects)
 
 // listen on a htp port to run and start the server
 const PORT = process.env.PORT || 5000;
