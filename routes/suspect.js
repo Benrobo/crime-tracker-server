@@ -29,9 +29,25 @@ export const editSuspects = router.delete(API_ROUTE.editSuspects, checkAuth, (re
             return util.sendJson(res, { message: "failed: payload is required" }, 400)
         }
         if (Object.entries(data).length === 0) {
-            return util.sendJson(res, { message: "deleting of suspect required a valid payload but got none" }, 404)
+            return util.sendJson(res, { message: "editing of suspect required a valid payload but got none" }, 404)
         }
         return suspects.edit(res, data)
+    } catch (err) {
+        return util.sendJson(res, { message: err.message }, 500)
+    }
+})
+
+
+export const deleteSuspects = router.delete(API_ROUTE.deleteSuspects, checkAuth, (req, res) => {
+    try {
+        let data = req.body;
+        if (!data || data === "" || typeof data === "function" || typeof data === "string" || data === null) {
+            return util.sendJson(res, { message: "failed: payload is required" }, 400)
+        }
+        if (Object.entries(data).length === 0) {
+            return util.sendJson(res, { message: "deleting of suspect required a valid payload but got none" }, 404)
+        }
+        return suspects.delete(res, data)
     } catch (err) {
         return util.sendJson(res, { message: err.message }, 500)
     }

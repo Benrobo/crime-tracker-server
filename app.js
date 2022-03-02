@@ -7,7 +7,7 @@ import { approveRegRequest, rejectRegRequest } from "./routes/grantRequest.js"
 import { AddCase, getCases, deleteCase, editCase } from "./routes/caseRoute.js"
 import { getOfficers, getOfficersId, editOfficerDetails, deleteOfficer } from "./routes/usersRoute.js"
 import { addPrediction, deletePrediction } from "./routes/prediction.js"
-import { addSuspect, editSuspects } from "./routes/suspect.js"
+import { addSuspect, deleteSuspects, editSuspects } from "./routes/suspect.js"
 
 
 dotenv.config();
@@ -59,6 +59,7 @@ app.use(deletePrediction)
 // suspects
 app.use(addSuspect)
 app.use(editSuspects)
+app.use(deleteSuspects)
 
 // listen on a htp port to run and start the server
 const PORT = process.env.PORT || 5000;

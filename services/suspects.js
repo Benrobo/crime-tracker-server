@@ -100,24 +100,28 @@ export default class Suspects {
         }
     }
 
+    edit(res, payload) {
+
+    }
+
     delete(res, payload) {
         if (res === "" || res === undefined || res === null) {
-            return "deleting of prediction requires a valid {res} object but got none"
+            return "deleting of suspect requires a valid {res} object but got none"
         }
 
         if (payload && Object.entries(payload).length > 0) {
-            if (payload.userId === undefined || payload.caseId === undefined || payload.predictionId === undefined) {
-                return util.sendJson(res, { error: true, message: "payload requires a valid fields [userid,caseid,predictionId] but got undefined" }, 400)
+            if (payload.userId === undefined || payload.caseId === undefined || payload.suspectId === undefined) {
+                return util.sendJson(res, { error: true, message: "payload requires a valid fields [userid,caseid,suspectId] but got undefined" }, 400)
             }
 
             if (payload.userId === "") {
-                return util.sendJson(res, { error: true, message: "deleting prediction requires a valid userid but got none" }, 400)
+                return util.sendJson(res, { error: true, message: "deleting suspect requires a valid userid but got none" }, 400)
             }
             if (payload.caseId === "") {
-                return util.sendJson(res, { error: true, message: "deleting prediction requires a valid caseid but got none" }, 400)
+                return util.sendJson(res, { error: true, message: "deleting suspect requires a valid caseid but got none" }, 400)
             }
-            if (payload.predictionId === "") {
-                return util.sendJson(res, { error: true, message: "deleting of suspect prediction requires a valid predictionId but got none" }, 400)
+            if (payload.suspectId === "") {
+                return util.sendJson(res, { error: true, message: "deleting of suspect suspect requires a valid suspectId but got none" }, 400)
             }
 
             try {
@@ -130,10 +134,10 @@ export default class Suspects {
                     }
 
                     if (result.rowCount === 0) {
-                        return util.sendJson(res, { error: true, message: "fail to delete prediction: user or officer [id] doesnt exist" }, 404)
+                        return util.sendJson(res, { error: true, message: "fail to delete suspect: user or officer [id] doesnt exist" }, 404)
                     }
 
-                    const { userId, caseId, predictionId } = payload;
+                    const { userId, caseId, suspectId } = payload;
 
                     // check also if caseId is valid and exist
                     const q2 = `SELECT * FROM cases WHERE id=$1`;
@@ -143,29 +147,29 @@ export default class Suspects {
                         }
 
                         if (data2.rowCount === 0) {
-                            return util.sendJson(res, { error: true, message: "failed to delete prediction: case doesnt exist" }, 403)
+                            return util.sendJson(res, { error: true, message: "failed to delete suspect: case doesnt exist" }, 403)
                         }
 
-                        // check if prediction data already exist in db b4 adding new one
+                        // check if suspect data already exist in db b4 deleting new one
                         // the same suspect cant be added twice for same case
 
-                        let q3 = `SELECT * FROM prediction WHERE id=$1 AND "userId"=$2 AND "caseId"=$3`
-                        db.query(q3, [predictionId.trim(), userId.trim(), caseId.trim()], (err, data3) => {
+                        let q3 = `SELECT * FROM suspects WHERE id=$1 AND "userId"=$2 AND "caseId"=$3`
+                        db.query(q3, [suspectId.trim(), userId.trim(), caseId.trim()], (err, data3) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
                             }
 
                             if (data3.rowCount === 0) {
-                                return util.sendJson(res, { error: false, message: "fialed to delete: prediction doesnt exist." }, 403)
+                                return util.sendJson(res, { error: false, message: "fialed to delete: suspects doesnt exist." }, 403)
                             }
 
-                            const sql = `DELETE FROM prediction WHERE id=$1 AND "userId"=$2 AND "caseId"=$3`;
-                            db.query(sql, [predictionId.trim(), userId.trim(), caseId.trim()], (err) => {
+                            const sql = `DELETE FROM suspects WHERE id=$1 AND "userId"=$2 AND "caseId"=$3`;
+                            db.query(sql, [suspectId.trim(), userId.trim(), caseId.trim()], (err) => {
                                 if (err) {
                                     return util.sendJson(res, { error: true, message: err.message }, 400)
                                 }
 
-                                return util.sendJson(res, { error: false, message: "prediction deleted succesfully" }, 200)
+                                return util.sendJson(res, { error: false, message: "suspect deleted succesfully" }, 200)
                             })
                         })
                     })
