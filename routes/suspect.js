@@ -6,6 +6,21 @@ import { checkAuth } from "../middlewares/auth.js";
 const suspects = new Suspects();
 
 
+export const getSuspects = router.post(API_ROUTE.getSuspects, checkAuth, (req, res) => {
+    try {
+        let data = req.body;
+        if (!data || data === "" || typeof data === "function" || typeof data === "string" || data === null) {
+            return util.sendJson(res, { message: "failed: payload is required" }, 400)
+        }
+        if (Object.entries(data).length === 0) {
+            return util.sendJson(res, { message: "fetching of suspects data required a valid payload but got none" }, 404)
+        }
+        return suspects.getSuspects(res, data)
+    } catch (err) {
+        return util.sendJson(res, { message: err.message }, 500)
+    }
+})
+
 export const addSuspect = router.post(API_ROUTE.addSuspects, checkAuth, (req, res) => {
     try {
         let data = req.body;

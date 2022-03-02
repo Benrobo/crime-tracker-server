@@ -2,6 +2,66 @@ import { db, util } from "../helpers/global.js";
 
 export default class Suspects {
 
+    getSuspects(res, payload) {
+        if (res === "" || res === undefined || res === null) {
+            return "fetching of suspects info requires a valid {res} object but got none"
+        }
+
+        if (payload && Object.entries(payload).length > 0) {
+            if (payload.userId === undefined || payload.caseId === undefined) {
+                return util.sendJson(res, { error: true, message: "payload requires a valid fields [userid,caseid] but got undefined" }, 400)
+            }
+
+            if (payload.userId === "") {
+                return util.sendJson(res, { error: true, message: "adding suspects requires a valid userid but got none" }, 400)
+            }
+            if (payload.caseId === "") {
+                return util.sendJson(res, { error: true, message: "adding suspects requires a valid caseid but got none" }, 400)
+            }
+            try {
+                // check if officer id and userid exist in db
+                const q1 = `SELECT * FROM users WHERE "userId"=$1`
+                db.query(q1, [payload.userId.trim()], (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        return util.sendJson(res, { error: true, message: err.message }, 400)
+                    }
+
+                    if (result.rowCount === 0) {
+                        return util.sendJson(res, { error: true, message: "fail to fetch suspect: user or officer [id] doesnt exist" }, 404)
+                    }
+
+                    const { userId, caseId } = payload;
+
+                    // check also if caseId is valid and exist
+                    const q2 = `SELECT * FROM cases WHERE id=$1`;
+                    db.query(q2, [caseId.trim()], (err, data2) => {
+                        if (err) {
+                            return util.sendJson(res, { error: true, message: err.message }, 400)
+                        }
+
+                        if (data2.rowCount === 0) {
+                            return util.sendJson(res, { error: true, message: "failed to fetch suspect: case doesnt exist" }, 404)
+                        }
+
+                        // check if suspect already exist in suspects table
+                        const q3 = `SELECT * FROM suspects INNER JOIN cases ON cases.id=suspects."caseId" WHERE suspects."userId"=$1 AND suspects."caseId"=$2`
+                        db.query(q3, [userId.trim(), caseId.trim()], (err, data3) => {
+                            if (err) {
+                                return util.sendJson(res, { error: true, message: err.message }, 400)
+                            }
+
+                            return util.sendJson(res, { error: false, data: data3.rows }, 200)
+                        })
+
+                    })
+                })
+            } catch (err) {
+                return util.sendJson(res, { error: true, message: err.message }, 500)
+            }
+        }
+    }
+
     add(res, payload) {
         if (res === "" || res === undefined || res === null) {
             return "adding of suspects requires a valid {res} object but got none"
