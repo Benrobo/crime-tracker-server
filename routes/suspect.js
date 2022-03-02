@@ -22,14 +22,14 @@ export const addSuspect = router.post(API_ROUTE.addSuspects, checkAuth, (req, re
 })
 
 
-export const editSuspects = router.delete(API_ROUTE.editSuspects, checkAuth, (req, res) => {
+export const editSuspects = router.put(API_ROUTE.editSuspects, checkAuth, (req, res) => {
     try {
         let data = req.body;
         if (!data || data === "" || typeof data === "function" || typeof data === "string" || data === null) {
             return util.sendJson(res, { message: "failed: payload is required" }, 400)
         }
         if (Object.entries(data).length === 0) {
-            return util.sendJson(res, { message: "editing of suspect required a valid payload but got none" }, 404)
+            return util.sendJson(res, { message: "updating of suspect required a valid payload but got none" }, 404)
         }
         return suspects.edit(res, data)
     } catch (err) {

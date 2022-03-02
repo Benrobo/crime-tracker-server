@@ -654,7 +654,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\",\r\n    \"caseId\": \"1002367\",\r\n    \"caseName\":\"murder\",\r\n    \"officerId\":\"a6944481-f174-4149-a2e9-a85179a523d5\", \r\n    \"note\": \"dfvdfv\"\r\n}",
+					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\",\r\n    \"caseId\": \"1002367\",\r\n    \"suspectName\":\"thompson 2.0\",\r\n    \"phoneNumber\":\"07084566449\", \r\n    \"address\":\"2 penni street\", \r\n    \"relation\": \"husband\",\r\n    \"note\": \"dfvdfv\",\r\n    \"suspectImg\": \"dfvdfv\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
