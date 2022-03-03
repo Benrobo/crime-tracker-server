@@ -42,7 +42,7 @@ export default class Users {
                         return util.sendJson(res, { error: true, message: err.message }, 400)
                     }
 
-                    return util.sendJson(res, { error: true, data: result.rows }, 400)
+                    return util.sendJson(res, { error: false, data: result.rows }, 400)
                 })
             } catch (err) {
                 return util.sendJson(res, { error: true, message: err.message }, 500)
