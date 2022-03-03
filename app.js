@@ -7,7 +7,7 @@ import { approveRegRequest, rejectRegRequest } from "./routes/grantRequest.js"
 import { AddCase, getCases, deleteCase, editCase } from "./routes/caseRoute.js"
 import { getOfficers, getOfficersId, editOfficerDetails, deleteOfficer } from "./routes/usersRoute.js"
 import { addPrediction, deletePrediction } from "./routes/prediction.js"
-import { addSuspect, deleteSuspects, editSuspects, getSuspects } from "./routes/suspect.js"
+import { addSuspect, allSuspects, deleteSuspects, editSuspects, getSuspects } from "./routes/suspect.js"
 
 
 dotenv.config();
@@ -57,6 +57,7 @@ app.use(addPrediction)
 app.use(deletePrediction)
 
 // suspects
+app.use(allSuspects)
 app.use(getSuspects)
 app.use(addSuspect)
 app.use(editSuspects)

@@ -2,6 +2,26 @@ import { db, util } from "../helpers/global.js";
 
 export default class Suspects {
 
+    allSuspects(res) {
+        if (res === "" || res === undefined || res === null) {
+            return "fetching all suspects info requires a valid {res} object but got none"
+        }
+
+        try {
+            const q = `SELECT * FROM suspects`
+            db.query(q, (err, data3) => {
+                if (err) {
+                    return util.sendJson(res, { error: true, message: err.message }, 400)
+                }
+
+                return util.sendJson(res, { error: false, data: data3.rows }, 200)
+            })
+        }
+        catch (err) {
+            return util.sendJson(res, { error: true, message: err.message }, 400)
+        }
+    }
+
     getSuspects(res, payload) {
         if (res === "" || res === undefined || res === null) {
             return "fetching of suspects info requires a valid {res} object but got none"
