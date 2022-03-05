@@ -54,7 +54,7 @@ export const deleteOfficer = router.delete(API_ROUTE.deleteOfficer, checkAuth, (
         if (Object.entries(data).length === 0) {
             return util.sendJson(res, { message: "deleting officer acct required a valid payload but got none" }, 404)
         }
-        return users.deleteOfficer(res, data)
+        return users.deleteOfficers(res, data)
     } catch (err) {
         return util.sendJson(res, { message: err.message }, 500)
     }

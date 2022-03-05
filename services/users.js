@@ -127,19 +127,23 @@ export default class Users {
         }
     }
 
-    deleteOfficer(res, data) {
+    deleteOfficers(res, data) {
         if (res === "" || res === undefined || res === null) {
             return "deleting of officer account requires a valid {res} object but got none"
         }
 
         if (data && Object.entries(data).length > 0) {
-            if (data.userId === undefined) {
-                return util.sendJson(res, { error: true, message: "data requires a valid fields [userid] but got undefined" }, 400)
+            if (data.userId === undefined || data.officerId === undefined) {
+                return util.sendJson(res, { error: true, message: "data requires a valid fields [userid, officerId] but got undefined" }, 400)
             }
 
             if (data.userId === "") {
                 return util.sendJson(res, { error: true, message: "deleting of officer acct requires a valid userid but got none" }, 400)
             }
+            if (data.officerId === "") {
+                return util.sendJson(res, { error: true, message: "deleting of officer acct requires a valid officerId but got none" }, 400)
+            }
+
 
             try {
                 // check if officer id and userid exist in db
@@ -150,22 +154,55 @@ export default class Users {
                     }
 
                     if (result.rowCount === 0) {
-                        return util.sendJson(res, { error: true, message: "fail to delete officer acct: offcer notfound" }, 404)
+                        return util.sendJson(res, { error: true, message: "fail to delete officer acct: user notfound" }, 404)
                     }
 
+                    // check if user deleting officer acct is admin
+                    if (result.rows[0].userRole !== "admin") {
+                        return util.sendJson(res, { error: true, message: "only admin are permitted to delete other officer account" }, 404)
+                    }
 
-                    const { userId } = data;
-
-                    const sql = `DELETE FROM users WHERE "userId"=$2`;
-                    db.query(sql, [userId.trim()], (err) => {
+                    // check if officer exist in db
+                    const q2 = `SELECT * FROM users WHERE "userId"=$1`
+                    db.query(q2, [data.officerId.trim()], (err, data1) => {
                         if (err) {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
                         }
 
-                        return util.sendJson(res, { error: false, message: "case deleted succesfully" }, 200)
+                        if (data1.rowCount === 0) {
+                            return util.sendJson(res, { error: true, message: "fail to delete officer acct: officer notfound" }, 404)
+                        }
+
+                        const { userId, officerId } = data;
+
+                        let constructMessage = userId === officerId ? "Your account has been deleted" : "Officer account deleted successfully"
+
+
+                        // delete from all tables record added by the officer
+                        const sql1 = `DELETE FROM cases WHERE "userId"=$1`
+                        const sql2 = `DELETE FROM prediction WHERE "userId"=$1`
+                        const sql3 = `DELETE FROM suspects WHERE "userId"=$1`
+                        const sql4 = `DELETE FROM evidence WHERE "userId"=$1`
+
+                        db.query(sql1, [officerId.trim()])
+                        db.query(sql2, [officerId.trim()])
+                        db.query(sql3, [officerId.trim()])
+                        db.query(sql4, [officerId.trim()])
+
+                        const sql5 = `DELETE FROM users WHERE "userId"=$1`;
+                        db.query(sql5, [officerId.trim()], (err) => {
+                            if (err) {
+                                console.log(err);
+                                return util.sendJson(res, { error: true, message: err.message }, 400)
+                            }
+
+                            return util.sendJson(res, { error: false, message: constructMessage }, 200)
+                        })
                     })
+
                 })
             } catch (err) {
+                console.log(err);
                 return util.sendJson(res, { error: true, message: err.message }, 500)
             }
         }
