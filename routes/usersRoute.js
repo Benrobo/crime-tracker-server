@@ -9,7 +9,7 @@ export const getOfficers = router.post(API_ROUTE.getOfficers, checkAuth, (req, r
     try {
         return users.getAllUsers(res)
     } catch (err) {
-        return util.sendJson(res, { message: err.message }, 500)
+        return util.sendJson(res, { error: true, message: err.message }, 500)
     }
 })
 
@@ -18,14 +18,14 @@ export const getOfficersId = router.post(API_ROUTE.getOfficersId, checkAuth, (re
         let data = req.body;
         console.log(data);
         if (!data || data === "" || typeof data === "function" || typeof data === "string" || data === null) {
-            return util.sendJson(res, { message: "failed: payload is required" }, 400)
+            return util.sendJson(res, { error: true, message: "failed: payload is required" }, 400)
         }
         if (Object.entries(data).length === 0) {
-            return util.sendJson(res, { message: "fetching an officer required a valid payload but got none" }, 404)
+            return util.sendJson(res, { error: true, message: "fetching an officer required a valid payload but got none" }, 404)
         }
         return users.getUsersId(res, data)
     } catch (err) {
-        return util.sendJson(res, { message: err.message }, 500)
+        return util.sendJson(res, { error: true, message: err.message }, 500)
     }
 })
 
@@ -33,14 +33,14 @@ export const editOfficerDetails = router.put(API_ROUTE.editOfficer, checkAuth, (
     try {
         let data = req.body;
         if (!data || data === "" || typeof data === "function" || typeof data === "string" || data === null) {
-            return util.sendJson(res, { message: "failed: payload is required" }, 400)
+            return util.sendJson(res, { error: true, message: "failed: payload is required" }, 400)
         }
         if (Object.entries(data).length === 0) {
-            return util.sendJson(res, { message: "editing officer details required a valid payload but got none" }, 404)
+            return util.sendJson(res, { error: true, message: "editing officer details required a valid payload but got none" }, 404)
         }
         return users.editUsers(res, data)
     } catch (err) {
-        return util.sendJson(res, { message: err.message }, 500)
+        return util.sendJson(res, { error: true, message: err.message }, 500)
     }
 })
 
