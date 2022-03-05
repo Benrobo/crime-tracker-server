@@ -156,7 +156,7 @@ export default class Suspects {
                             }
 
                             if (data3.rowCount > 0) {
-                                return util.sendJson(res, { error: false, message: "failed: suspect already exist for this case" }, 403)
+                                return util.sendJson(res, { error: true, message: "failed: suspect already exist for this case" }, 403)
                             }
 
                             const id = util.genId()

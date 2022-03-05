@@ -39,8 +39,8 @@
 );
 
 CREATE TABLE "suspects"(
-    id TEXT NOT NULL unique,
-    "userId" TEXT NOT NULL primary key,
+    id TEXT NOT NULL unique primary key,
+    "userId" TEXT NOT NULL,
     "caseId" TEXT NOT NULL,
     "suspectName" TEXT NOT NULL,
     "phoneNumber" TEXT NOT NULL,
@@ -52,8 +52,8 @@ CREATE TABLE "suspects"(
 );
 
 4. CREATE TABLE "evidence"(
-    id TEXT NOT NULL unique,
-    "userId" TEXT NOT NULL primary key,
+    id TEXT NOT NULL unique primary key,
+    "userId" TEXT NOT NULL,
     "caseId" TEXT NOT NULL,
     "evidence" TEXT NOT NULL,
     "suspectName" TEXT NOT NULL,
