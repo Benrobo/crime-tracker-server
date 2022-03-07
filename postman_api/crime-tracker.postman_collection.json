@@ -74,7 +74,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"email\":\"mark@mail.com\",\r\n    \"password\": \"1234\"\r\n}",
+					"raw": "{\r\n    \"email\":\"brad@mail.com\",\r\n    \"password\": \"1234\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -111,7 +111,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userId\": \"62447136-30c3-4f72-a36e-0c638d217c0d\"\r\n}",
+					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\",\r\n    \"officerId\": \"7227a498-0baa-445d-9435-0a6e0dedf062\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -438,7 +438,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\"\r\n}",
+					"raw": "{\r\n    \"userId\": \"37732ec2-8277-4c5d-9e32-d9155bef3ce1\",\r\n    \"officerId\": \"a6944481-f174-4149-a2e9-a85179a523d55\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -570,6 +570,33 @@
 			"response": []
 		},
 		{
+			"name": "allSuspects",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5000/api/suspects/getAll",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"suspects",
+						"getAll"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "getSuspects",
 			"request": {
 				"method": "POST",
@@ -582,7 +609,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"userId\": \"a6944481-f174-4149-a2e9-a85179a523d5\",\r\n    \"caseId\": \"1002367\"\r\n}",
+					"raw": "{\r\n    \"userId\": \"37732ec2-8277-4c5d-9e32-d9155bef3ce1\",\r\n    \"caseId\": \"02922\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -590,7 +617,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/api/suspects/all",
+					"raw": "http://localhost:5000/api/suspects/fetch",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -599,7 +626,7 @@
 					"path": [
 						"api",
 						"suspects",
-						"all"
+						"fetch"
 					]
 				}
 			},
@@ -718,6 +745,141 @@
 			"request": {
 				"method": "GET",
 				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "allEvidence",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5000/api/evidence/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"evidence",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addEvidence",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"37732ec2-8277-4c5d-9e32-d9155bef3ce1\",\r\n    \"caseId\": \"02922\",\r\n    \"suspectName\": \"bena bug\",\r\n    \"evidence\": \"knife and bottle\",\r\n    \"suspectId\": \"547d47cf-0a05-4978-9de0-7488949877da\",\r\n    \"note\": \"some bugg note\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/evidence/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"evidence",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editEvidence",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"37732ec2-8277-4c5d-9e32-d9155bef3ce1\",\r\n    \"caseId\": \"02922\",\r\n    \"evidenceId\": \"71b53be7-c792-4366-9c0a-88eacda3ae87\",\r\n    \"suspectName\": \"bena bug 2.0\",\r\n    \"evidence\": \"knife and bottle\",\r\n    \"suspectId\": \"547d47cf-0a05-4978-9de0-7488949877da\",\r\n    \"note\": \"some bugg note\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/evidence/edit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"evidence",
+						"edit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deletevidence",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"37732ec2-8277-4c5d-9e32-d9155bef3ce1\",\r\n    \"caseId\": \"02922\",\r\n    \"evidenceId\": \"71b53be7-c792-4366-9c0a-88eacda3ae87\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/evidence/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"evidence",
+						"delete"
+					]
+				}
 			},
 			"response": []
 		}

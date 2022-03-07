@@ -76,6 +76,7 @@ export default class Suspects {
                                         suspects."caseId", 
                                         suspects.note, 
                                         suspects.address, 
+                                        suspects."phoneNumber",
                                         suspects.relation, 
                                         suspects."userId", 
                                         cases."officerId", 
