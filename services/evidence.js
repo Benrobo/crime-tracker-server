@@ -63,12 +63,9 @@ export default class Evidence {
                         if (data2.rowCount === 0) {
                             return util.sendJson(res, { error: true, message: "failed to fetch evidence: case doesnt exist" }, 404)
                         }
-
-                        // refrence
-                        // const q3 = `SELECT suspects.id,users."userName", suspects."caseId", suspects."suspectName", suspects."caseId", suspects.note, suspects.address, suspects.relation, suspects."userId", cases."officerId", cases."caseName",prediction.rank, suspects."suspectImg" FROM suspects INNER JOIN cases ON cases.id=suspects."caseId" INNER JOIN prediction ON suspects."caseId"=cases."id" INNER JOIN users ON users."userId"=cases."userId" WHERE suspects."userId"=$1 AND suspects."caseId"=$2`
-
                         // check if suspect already exist in suspects table
                         const q3 = `SELECT 
+                                        evidence.id,
                                         evidence."userId",
                                         evidence."caseId",
                                         evidence."suspectId",
@@ -77,12 +74,23 @@ export default class Evidence {
                                         evidence."note",
                                         evidence."created_at",
                                         prediction.rank,
+                                        prediction."suspectId",
+                                        suspects.relation,
+                                        users."userName"
                                     FROM 
                                         evidence 
                                     INNER JOIN 
                                         prediction 
                                     ON 
-                                        prediction."caseId"=evidence."caseId" 
+                                        prediction."caseId"=evidence."caseId"
+                                    INNER JOIN
+                                        suspects
+                                    ON
+                                        prediction."caseId"=suspects."caseId" 
+                                    INNER JOIN 
+                                        users
+                                    ON
+                                        users."userId"=evidence."userId"
                                     WHERE 
                                         suspects."caseId"=$1`
                         db.query(q3, [caseId.trim()], (err, data3) => {
@@ -158,14 +166,14 @@ export default class Evidence {
 
                         // check if suspect exist in suspects table
 
-                        const q3 = `SELECT * FROM suspects WHERE "id"=$1 AND "caseId"=$2`
-                        db.query(q3, [suspectId.trim(), caseId.trim()], (err, data3) => {
+                        const q3 = `SELECT * FROM suspects WHERE id=$1`
+                        db.query(q3, [suspectId.trim()], (err, data3) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
                             }
 
                             if (data3.rowCount === 0) {
-                                return util.sendJson(res, { error: true, message: "failed: either suspect doesnt exist or suspect doesnt exist for that case added" }, 404)
+                                return util.sendJson(res, { error: true, message: "failed: suspect doesnt exist" }, 404)
                             }
 
                             // check if evidence exist already
