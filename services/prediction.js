@@ -75,7 +75,7 @@ export default class Prediction {
                             }
 
                             if (data3.rowCount === 0) {
-                                return util.sendJson(res, { error: false, message: "fialed: suspect doesnt exist, please add one" }, 404)
+                                return util.sendJson(res, { error: true, message: "fialed: suspect doesnt exist, please add one" }, 404)
                             }
 
                             // check if prediction data already exist in db b4 adding new one
@@ -88,7 +88,7 @@ export default class Prediction {
                                 }
 
                                 if (data4.rowCount > 0) {
-                                    return util.sendJson(res, { error: false, message: "fialed: suspect already exist for that case." }, 403)
+                                    return util.sendJson(res, { error: true, message: "fialed: suspect already exist for that case." }, 403)
                                 }
 
 

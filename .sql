@@ -29,8 +29,8 @@
 );
 
 3. CREATE TABLE "prediction"(
-    id TEXT NOT NULL unique,
-    "userId" TEXT NOT NULL primary key,
+    id TEXT NOT NULL unique primary key,
+    "userId" TEXT NOT NULL,
     "caseName" TEXT NOT NULL,
     "caseId" TEXT NOT NULL,
     "suspectId" TEXT NOT NULL,

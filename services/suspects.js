@@ -64,9 +64,41 @@ export default class Suspects {
                             return util.sendJson(res, { error: true, message: "failed to fetch suspect: case doesnt exist" }, 404)
                         }
 
+                        // refrence
+                        // const q3 = `SELECT suspects.id,users."userName", suspects."caseId", suspects."suspectName", suspects."caseId", suspects.note, suspects.address, suspects.relation, suspects."userId", cases."officerId", cases."caseName",prediction.rank, suspects."suspectImg" FROM suspects INNER JOIN cases ON cases.id=suspects."caseId" INNER JOIN prediction ON suspects."caseId"=cases."id" INNER JOIN users ON users."userId"=cases."userId" WHERE suspects."userId"=$1 AND suspects."caseId"=$2`
+
                         // check if suspect already exist in suspects table
-                        const q3 = `SELECT * FROM suspects INNER JOIN cases ON cases.id=suspects."caseId" WHERE suspects."userId"=$1 AND suspects."caseId"=$2`
-                        db.query(q3, [userId.trim(), caseId.trim()], (err, data3) => {
+                        const q3 = `SELECT 
+                                        suspects.id,
+                                        users."userName", 
+                                        suspects."caseId", 
+                                        suspects."suspectName", 
+                                        suspects."caseId", 
+                                        suspects.note, 
+                                        suspects.address, 
+                                        suspects.relation, 
+                                        suspects."userId", 
+                                        cases."officerId", 
+                                        cases."caseName",
+                                        prediction.rank, 
+                                        suspects."suspectImg" 
+                                    FROM 
+                                        suspects 
+                                    INNER JOIN 
+                                        cases 
+                                    ON 
+                                        cases.id=suspects."caseId" 
+                                    INNER JOIN 
+                                        prediction 
+                                    ON 
+                                        suspects."caseId"=prediction."caseId" 
+                                    INNER JOIN 
+                                        users 
+                                    ON 
+                                        users."userId"=suspects."userId" 
+                                    WHERE 
+                                        suspects."caseId"=$1`
+                        db.query(q3, [caseId.trim()], (err, data3) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
                             }
@@ -323,7 +355,6 @@ export default class Suspects {
                         }
 
                         // check if suspect data already exist in db b4 deleting new one
-                        // the same suspect cant be added twice for same case
 
                         let q3 = `SELECT * FROM suspects WHERE id=$1 AND "userId"=$2 AND "caseId"=$3`
                         db.query(q3, [suspectId.trim(), userId.trim(), caseId.trim()], (err, data3) => {
@@ -332,7 +363,7 @@ export default class Suspects {
                             }
 
                             if (data3.rowCount === 0) {
-                                return util.sendJson(res, { error: false, message: "fialed to delete: suspects doesnt exist." }, 403)
+                                return util.sendJson(res, { error: true, message: "fialed: cant delete suspect data which was'nt added by you." }, 403)
                             }
 
                             const sql = `DELETE FROM suspects WHERE id=$1 AND "userId"=$2 AND "caseId"=$3`;
