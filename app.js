@@ -8,7 +8,7 @@ import { AddCase, getCases, deleteCase, editCase } from "./routes/caseRoute.js"
 import { getOfficers, getOfficersId, editOfficerDetails, deleteOfficer } from "./routes/usersRoute.js"
 import { addPrediction, deletePrediction } from "./routes/prediction.js"
 import { addSuspect, allSuspects, deleteSuspects, editSuspects, getSuspects } from "./routes/suspect.js"
-import { allEvidence, getEvidence, addEvidence, editEvidence, deleteEvidence } from "./routes/evidence.js"
+import { allEvidence, getEvidence, getEvidenceById, addEvidence, editEvidence, deleteEvidence, deleteAllEvidence } from "./routes/evidence.js"
 
 dotenv.config();
 // main middlewares
@@ -66,9 +66,11 @@ app.use(deleteSuspects)
 // Evidence
 app.use(allEvidence)
 app.use(getEvidence)
+app.use(getEvidenceById)
 app.use(addEvidence)
 app.use(editEvidence)
 app.use(deleteEvidence)
+app.use(deleteAllEvidence)
 
 // listen on a htp port to run and start the server
 const PORT = process.env.PORT || 5000;

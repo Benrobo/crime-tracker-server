@@ -86,6 +86,10 @@ export default class Suspects {
                                     FROM 
                                         suspects 
                                     INNER JOIN 
+                                        users 
+                                    ON 
+                                        users."userId"=suspects."userId" 
+                                    INNER JOIN 
                                         cases 
                                     ON 
                                         cases.id=suspects."caseId" 
@@ -93,10 +97,6 @@ export default class Suspects {
                                         prediction 
                                     ON 
                                         suspects."caseId"=prediction."caseId" 
-                                    INNER JOIN 
-                                        users 
-                                    ON 
-                                        users."userId"=suspects."userId" 
                                     WHERE 
                                         suspects."caseId"=$1`
                         db.query(q3, [caseId.trim()], (err, data3) => {

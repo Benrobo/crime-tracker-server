@@ -63,6 +63,10 @@ export default class Evidence {
                         if (data2.rowCount === 0) {
                             return util.sendJson(res, { error: true, message: "failed to fetch evidence: case doesnt exist" }, 404)
                         }
+
+                        // refrence
+                        // const q3 = `SELECT suspects.id,users."userName", suspects."caseId", suspects."suspectName", suspects."caseId", suspects.note, suspects.address, suspects.relation, suspects."userId", cases."officerId", cases."caseName",prediction.rank, suspects."suspectImg" FROM suspects INNER JOIN cases ON cases.id=suspects."caseId" INNER JOIN prediction ON suspects."caseId"=cases."id" INNER JOIN users ON users."userId"=cases."userId" WHERE suspects."userId"=$1 AND suspects."caseId"=$2`
+
                         // check if suspect already exist in suspects table
                         const q3 = `SELECT 
                                         evidence.id,
@@ -74,26 +78,96 @@ export default class Evidence {
                                         evidence."note",
                                         evidence."created_at",
                                         prediction.rank,
-                                        prediction."suspectId",
-                                        suspects.relation,
-                                        users."userName"
+                                        prediction."suspectId"
                                     FROM 
                                         evidence 
                                     INNER JOIN 
                                         prediction 
                                     ON 
                                         prediction."caseId"=evidence."caseId"
-                                    INNER JOIN
-                                        suspects
-                                    ON
-                                        prediction."caseId"=suspects."caseId" 
-                                    INNER JOIN 
-                                        users
-                                    ON
-                                        users."userId"=evidence."userId"
                                     WHERE 
-                                        suspects."caseId"=$1`
+                                        evidence."caseId"=$1`
                         db.query(q3, [caseId.trim()], (err, data3) => {
+                            if (err) {
+                                return util.sendJson(res, { error: true, message: err.message }, 400)
+                            }
+
+                            return util.sendJson(res, { error: false, data: data3.rows }, 200)
+                        })
+
+                    })
+                })
+            } catch (err) {
+                return util.sendJson(res, { error: true, message: err.message }, 500)
+            }
+        }
+    }
+
+    getEvidenceById(res, payload) {
+        if (res === "" || res === undefined || res === null) {
+            return "fetching of evidence info requires a valid {res} object but got none"
+        }
+
+        if (payload && Object.entries(payload).length > 0) {
+            if (payload.userId === undefined || payload.caseId === undefined || payload.evidenceId === undefined) {
+                return util.sendJson(res, { error: true, message: "payload requires a valid fields [userid,caseid,evidenceId] but got undefined" }, 400)
+            }
+
+            if (payload.userId === "") {
+                return util.sendJson(res, { error: true, message: "fetching evidence requires a valid userid but got none" }, 400)
+            }
+            if (payload.caseId === "") {
+                return util.sendJson(res, { error: true, message: "fetching evidence requires a valid caseid but got none" }, 400)
+            }
+            if (payload.evidenceId === "") {
+                return util.sendJson(res, { error: true, message: "fetching evidence requires a valid evidenceId but got none" }, 400)
+            }
+            try {
+                // check if officer id and userid exist in db
+                const q1 = `SELECT * FROM users WHERE "userId"=$1`
+                db.query(q1, [payload.userId.trim()], (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        return util.sendJson(res, { error: true, message: err.message }, 400)
+                    }
+
+                    if (result.rowCount === 0) {
+                        return util.sendJson(res, { error: true, message: "fail to fetch evidence: user or officer [id] doesnt exist" }, 404)
+                    }
+
+                    const { evidenceId, caseId } = payload;
+
+                    // check also if caseId is valid and exist
+                    const q2 = `SELECT * FROM cases WHERE id=$1`;
+                    db.query(q2, [caseId.trim()], (err, data2) => {
+                        if (err) {
+                            return util.sendJson(res, { error: true, message: err.message }, 400)
+                        }
+
+                        if (data2.rowCount === 0) {
+                            return util.sendJson(res, { error: true, message: "failed to fetch evidence: case doesnt exist" }, 404)
+                        }
+
+                        const q3 = `SELECT 
+                                        evidence.id,
+                                        evidence."userId",
+                                        evidence."caseId",
+                                        evidence."suspectId",
+                                        evidence."suspectName",
+                                        evidence.evidence,
+                                        evidence."note",
+                                        evidence."created_at",
+                                        prediction.rank,
+                                        prediction."suspectId"
+                                    FROM 
+                                        evidence 
+                                    INNER JOIN 
+                                        prediction 
+                                    ON 
+                                        prediction."caseId"=evidence."caseId"
+                                    WHERE 
+                                        evidence."caseId"=$1 AND evidence.id=$2`
+                        db.query(q3, [caseId.trim(), evidenceId.trim()], (err, data3) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
                             }
@@ -166,14 +240,14 @@ export default class Evidence {
 
                         // check if suspect exist in suspects table
 
-                        const q3 = `SELECT * FROM suspects WHERE id=$1`
-                        db.query(q3, [suspectId.trim()], (err, data3) => {
+                        const q3 = `SELECT * FROM suspects WHERE "id"=$1 AND "caseId"=$2`
+                        db.query(q3, [suspectId.trim(), caseId.trim()], (err, data3) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
                             }
 
                             if (data3.rowCount === 0) {
-                                return util.sendJson(res, { error: true, message: "failed: suspect doesnt exist" }, 404)
+                                return util.sendJson(res, { error: true, message: "failed: either suspect doesnt exist or suspect doesnt exist for that case added" }, 404)
                             }
 
                             // check if evidence exist already
@@ -266,19 +340,19 @@ export default class Evidence {
                         }
 
                         // check if suspect already exist in suspects table
-                        const q3 = `SELECT * FROM suspects WHERE "id"=$1 AND "caseId"=$2`
-                        db.query(q3, [suspectId.trim(), caseId.trim()], (err, data3) => {
+                        const q3 = `SELECT * FROM suspects WHERE id=$1`
+                        db.query(q3, [suspectId.trim()], (err, data3) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
                             }
 
                             if (data3.rowCount === 0) {
-                                return util.sendJson(res, { error: false, message: "failed to update: suspect not found" }, 404)
+                                return util.sendJson(res, { error: true, message: "failed to update: suspect not found" }, 404)
                             }
 
                             // check if evidence exist already
-                            const q4 = `SELECT * FROM evidence WHERE id=$1 AND "suspectId"=$2 AND "userId"=$3 AND "caseId"=$4`
-                            db.query(q4, [evidenceId.trim(), suspectId.trim(), userId.trim(), caseId.trim()], (err, data4) => {
+                            const q4 = `SELECT * FROM evidence WHERE id=$1`
+                            db.query(q4, [evidenceId.trim()], (err, data4) => {
                                 if (err) {
                                     return util.sendJson(res, { error: true, message: err.message }, 400)
                                 }
@@ -373,6 +447,52 @@ export default class Evidence {
                                 return util.sendJson(res, { error: false, message: "evidence deleted succesfully" }, 200)
                             })
                         })
+                    })
+                })
+            } catch (err) {
+                return util.sendJson(res, { error: true, message: err.message }, 500)
+            }
+        }
+    }
+    deleteAll(res, payload) {
+        if (res === "" || res === undefined || res === null) {
+            return "deleting of evidence requires a valid {res} object but got none"
+        }
+
+        if (payload && Object.entries(payload).length > 0) {
+            if (payload.userId === undefined) {
+                return util.sendJson(res, { error: true, message: "payload requires a valid fields [userid] but got undefined" }, 400)
+            }
+
+            if (payload.userId === "") {
+                return util.sendJson(res, { error: true, message: "deleting all evidence requires a valid userid but got none" }, 400)
+            }
+
+            try {
+                // check if officer id and userid exist in db
+                const q1 = `SELECT * FROM users WHERE "userId"=$1`
+                db.query(q1, [payload.userId.trim()], (err, result) => {
+                    if (err) {
+                        console.log(err);
+                        return util.sendJson(res, { error: true, message: err.message }, 400)
+                    }
+
+                    if (result.rowCount === 0) {
+                        return util.sendJson(res, { error: true, message: "fail to delete evidence: user or officer [id] doesnt exist" }, 404)
+                    }
+
+                    // check if userRole is admin cause only admin has the right to clear all
+                    if (result.rows[0].userRole !== "admin") {
+                        return util.sendJson(res, { error: true, message: "Only admin has permission." }, 401)
+                    }
+
+                    const sql = `DELETE FROM evidence`;
+                    db.query(sql, (err) => {
+                        if (err) {
+                            return util.sendJson(res, { error: true, message: err.message }, 400)
+                        }
+
+                        return util.sendJson(res, { error: false, message: "all evidence deleted succesfully" }, 200)
                     })
                 })
             } catch (err) {

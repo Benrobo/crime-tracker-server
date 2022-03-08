@@ -24,9 +24,11 @@ const API_ROUTE = {
     deleteSuspects: "/api/suspects/delete",
     allEvidence: "/api/evidence/all",
     getEvidenceId: "/api/evidence/id",
+    getEvidenceById: "/api/evidence/byId",
     addEvidence: "/api/evidence/add",
     editEvidence: "/api/evidence/edit",
     deleteEvidence: "/api/evidence/delete",
+    clearAllEvidence: `/api/evidence/deleteAll`,
 }
 
 export default API_ROUTE;

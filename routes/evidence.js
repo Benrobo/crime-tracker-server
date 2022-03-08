@@ -28,6 +28,22 @@ export const getEvidence = router.post(API_ROUTE.getEvidenceId, checkAuth, (req,
     }
 })
 
+
+export const getEvidenceById = router.post(API_ROUTE.getEvidenceById, checkAuth, (req, res) => {
+    try {
+        let data = req.body;
+        if (!data || data === "" || typeof data === "function" || typeof data === "string" || data === null) {
+            return util.sendJson(res, { error: true, message: "failed: payload is required" }, 400)
+        }
+        if (Object.entries(data).length === 0) {
+            return util.sendJson(res, { error: true, message: "fetching of evidence data required a valid payload but got none" }, 404)
+        }
+        return evidence.getEvidenceById(res, data)
+    } catch (err) {
+        return util.sendJson(res, { error: true, message: err.message }, 500)
+    }
+})
+
 export const addEvidence = router.post(API_ROUTE.addEvidence, checkAuth, (req, res) => {
     try {
         let data = req.body;
@@ -70,6 +86,21 @@ export const deleteEvidence = router.delete(API_ROUTE.deleteEvidence, checkAuth,
             return util.sendJson(res, { message: "deleting of evidence required a valid payload but got none" }, 404)
         }
         return evidence.delete(res, data)
+    } catch (err) {
+        return util.sendJson(res, { message: err.message }, 500)
+    }
+})
+
+export const deleteAllEvidence = router.delete(API_ROUTE.clearAllEvidence, checkAuth, (req, res) => {
+    try {
+        let data = req.body;
+        if (!data || data === "" || typeof data === "function" || typeof data === "string" || data === null) {
+            return util.sendJson(res, { message: "failed: payload is required" }, 400)
+        }
+        if (Object.entries(data).length === 0) {
+            return util.sendJson(res, { message: "deleting all evidence required a valid payload but got none" }, 404)
+        }
+        return evidence.deleteAll(res, data)
     } catch (err) {
         return util.sendJson(res, { message: err.message }, 500)
     }
