@@ -32,12 +32,12 @@ export default class LogInAuth {
                     }
 
                     if (result.rowCount === 0) {
-                        return util.sendJson(res, { error: false, message: "officer with that email dont exists" }, 404)
+                        return util.sendJson(res, { error: true, message: "officer with that email dont exists" }, 404)
                     }
 
                     // verify password
                     if (util.compareHash(data.password, result.rows[0].hash) === false) {
-                        return util.sendJson(res, { error: false, message: "password given is incorrect" }, 403)
+                        return util.sendJson(res, { error: true, message: "password given is incorrect" }, 400)
                     }
 
                     // update data
