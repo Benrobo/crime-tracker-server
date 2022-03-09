@@ -16,7 +16,6 @@ export const getOfficers = router.post(API_ROUTE.getOfficers, checkAuth, (req, r
 export const getOfficersId = router.post(API_ROUTE.getOfficersId, checkAuth, (req, res) => {
     try {
         let data = req.body;
-        console.log(data);
         if (!data || data === "" || typeof data === "function" || typeof data === "string" || data === null) {
             return util.sendJson(res, { error: true, message: "failed: payload is required" }, 400)
         }

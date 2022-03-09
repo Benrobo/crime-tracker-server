@@ -39,7 +39,6 @@ export const registerAdmin = router.post(API_ROUTE.adminAuth, async (req, res) =
 export const logInUsers = router.post(API_ROUTE.logIn, async (req, res) => {
     try {
         let data = req.body;
-        console.log(data)
 
         if (!data || data === "" || typeof data === "function" || typeof data === "string" || data === null) {
             return util.sendJson(res, { message: "failed: payload is required" }, 400)

@@ -13,7 +13,6 @@ export function checkAuth(req, res, next) {
         req.user = decode;
         next()
     } catch (e) {
-        console.log(e)
         return res.status(400).json({ msg: "Invalid token" })
     }
 }
