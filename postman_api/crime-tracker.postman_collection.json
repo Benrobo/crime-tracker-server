@@ -882,6 +882,114 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "deleteAllEvidence",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"37732ec2-8277-4c5d-9e32-d9155bef3ce1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/evidence/deleteAll",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"evidence",
+						"deleteAll"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getEvidenceId",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"37732ec2-8277-4c5d-9e32-d9155bef3ce1\",\r\n    \"caseId\": \"17107\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/evidence/id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"evidence",
+						"id"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getEvidenceById",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyNDQ3MTM2LTMwYzMtNGY3Mi1hMzZlLTBjNjM4ZDIxN2MwZCIsInR5cGUiOiJvZmZpY2VyIiwicm9sZSI6InVzZXIiLCJzdGF0dXMiOiJwZW5kaW5nIiwiaWF0IjoxNjQ0MzgxNDU5LCJleHAiOjE2NzU5MzkwNTl9.vjC56TFjR6qDtMpUZF4DfksqRu1o1GUMxsJRfw_IPus",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": \"37732ec2-8277-4c5d-9e32-d9155bef3ce1\",\r\n    \"caseId\": \"17107\",\r\n    \"evidenceId\": \"d6309036-0a2f-4484-a573-ec7c3926cb38\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/evidence/byId",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"evidence",
+						"byId"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

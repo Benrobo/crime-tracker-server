@@ -8,7 +8,21 @@ export default class Cases {
         }
 
         try {
-            const q1 = `SELECT * FROM cases`
+            const q1 = `SELECT
+                            cases.id,
+                            cases."caseName",
+                            cases."officerId",
+                            cases.note,
+                            cases.created_at,
+                            users."userName",
+                            users."userId"
+                        FROM 
+                            cases
+                        INNER JOIN
+                            users
+                        ON 
+                            users."userId"=cases."userId"
+                        `
             db.query(q1, (err, result) => {
                 if (err) {
                     return util.sendJson(res, { error: true, message: err.message }, 400)
@@ -134,8 +148,8 @@ export default class Cases {
 
                     // check if officer trying to update case data exist for that specific case
 
-                    const q2 = `SELECT * FROM cases WHERE id=$1 AND "officerId"=$2`;
-                    db.query(q2, [caseId.trim(), officerId.trim()], (err, data2) => {
+                    const q2 = `SELECT * FROM cases WHERE id=$1 AND "userId"=$2`;
+                    db.query(q2, [caseId.trim(), userId.trim()], (err, data2) => {
                         if (err) {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
                         }
@@ -194,13 +208,12 @@ export default class Cases {
                         return util.sendJson(res, { error: true, message: "fail to delete case: user or officer[id] doesnt exist" }, 404)
                     }
 
-
                     const { userId, caseId, officerId } = data;
 
-                    // check if officer trying to update case data exist for that specific case
+                    // check if case exist b4 deleting
 
-                    const q2 = `SELECT * FROM cases WHERE id=$1 AND "userId"=$2 AND "officerId"=$3`;
-                    db.query(q2, [caseId.trim(), userId.trim(), officerId.trim()], (err, data2) => {
+                    const q2 = `SELECT * FROM cases WHERE id=$1`;
+                    db.query(q2, [caseId.trim()], (err, data2) => {
                         if (err) {
                             return util.sendJson(res, { error: true, message: err.message }, 400)
                         }
@@ -209,15 +222,42 @@ export default class Cases {
                             return util.sendJson(res, { error: true, message: "fail to delete: case doesnt exist." }, 404)
                         }
 
-                        const sql = `DELETE FROM cases WHERE id=$1 AND "userId"=$2 AND "officerId"=$3`;
-                        db.query(sql, [caseId.trim(), userId.trim(), officerId.trim()], (err) => {
+                        // delete other table which have relationship withn the cases tabele
+
+                        const q3 = `DELETE FROM prediction WHERE "caseId"=$1`
+                        const q4 = `DELETE FROM evidence WHERE "caseId"=$1`
+                        const q5 = `DELETE FROM suspects WHERE "caseId"=$1`
+
+                        // @STEP 1
+                        db.query(q3, [caseId.trim()], (err) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
                             }
 
-                            return util.sendJson(res, { error: false, message: "case deleted succesfully" }, 200)
-                        })
+                            // @STEP 2
+                            db.query(q4, [caseId.trim()], (err) => {
+                                if (err) {
+                                    return util.sendJson(res, { error: true, message: err.message }, 400)
+                                }
 
+                                // @STEP 3
+                                db.query(q5, [caseId.trim()], (err) => {
+                                    if (err) {
+                                        return util.sendJson(res, { error: true, message: err.message }, 400)
+                                    }
+
+                                    // @STEP 4 FINAL STEP.
+                                    const sql = `DELETE FROM cases WHERE id=$1 AND "userId"=$2 AND "officerId"=$3`;
+                                    db.query(sql, [caseId.trim(), userId.trim(), officerId.trim()], (err) => {
+                                        if (err) {
+                                            return util.sendJson(res, { error: true, message: err.message }, 400)
+                                        }
+
+                                        return util.sendJson(res, { error: false, message: "case deleted succesfully" }, 200)
+                                    })
+                                })
+                            })
+                        })
                     })
                 })
             } catch (err) {
