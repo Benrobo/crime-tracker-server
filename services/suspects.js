@@ -362,14 +362,23 @@ export default class Suspects {
                                 return util.sendJson(res, { error: true, message: "fialed: cant delete suspect data which was'nt added by you." }, 403)
                             }
 
-                            const sql = `DELETE FROM suspects WHERE id=$1 AND "userId"=$2 AND "caseId"=$3`;
-                            db.query(sql, [suspectId.trim(), userId.trim(), caseId.trim()], (err) => {
+                            // also delete evidence added for that suspect
+                            const q1 = `DELETE FROM evidence WHERE "suspectId"=$1`
+                            db.query(q1, [suspectId.trim()], (err) => {
                                 if (err) {
                                     return util.sendJson(res, { error: true, message: err.message }, 400)
                                 }
 
-                                return util.sendJson(res, { error: false, message: "suspect deleted succesfully" }, 200)
+                                const sql = `DELETE FROM suspects WHERE id=$1 AND "userId"=$2 AND "caseId"=$3`;
+                                db.query(sql, [suspectId.trim(), userId.trim(), caseId.trim()], (err) => {
+                                    if (err) {
+                                        return util.sendJson(res, { error: true, message: err.message }, 400)
+                                    }
+
+                                    return util.sendJson(res, { error: false, message: "suspect deleted succesfully" }, 200)
+                                })
                             })
+
                         })
                     })
                 })

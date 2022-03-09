@@ -74,7 +74,8 @@ export default class Evidence {
                                         evidence."note",
                                         evidence."created_at",
                                         suspects.rank,
-                                        suspects."suspectName"
+                                        suspects."suspectName",
+                                        suspects.relation
                                     FROM 
                                         evidence
                                     INNER JOIN
