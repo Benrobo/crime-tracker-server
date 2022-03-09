@@ -180,14 +180,12 @@ export default class Users {
 
                         // delete from all tables record added by the officer
                         const sql1 = `DELETE FROM cases WHERE "userId"=$1`
-                        const sql2 = `DELETE FROM prediction WHERE "userId"=$1`
-                        const sql3 = `DELETE FROM suspects WHERE "userId"=$1`
-                        const sql4 = `DELETE FROM evidence WHERE "userId"=$1`
+                        const sql2 = `DELETE FROM suspects WHERE "userId"=$1`
+                        const sql3 = `DELETE FROM evidence WHERE "userId"=$1`
 
                         db.query(sql1, [officerId.trim()])
                         db.query(sql2, [officerId.trim()])
                         db.query(sql3, [officerId.trim()])
-                        db.query(sql4, [officerId.trim()])
 
                         const sql5 = `DELETE FROM users WHERE "userId"=$1`;
                         db.query(sql5, [officerId.trim()], (err) => {

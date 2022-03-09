@@ -6,7 +6,6 @@ import { registerUser, registerAdmin, logInUsers } from "./routes/auth.js"
 import { approveRegRequest, rejectRegRequest } from "./routes/grantRequest.js"
 import { AddCase, getCases, deleteCase, editCase } from "./routes/caseRoute.js"
 import { getOfficers, getOfficersId, editOfficerDetails, deleteOfficer } from "./routes/usersRoute.js"
-import { addPrediction, deletePrediction } from "./routes/prediction.js"
 import { addSuspect, allSuspects, deleteSuspects, editSuspects, getSuspects } from "./routes/suspect.js"
 import { allEvidence, getEvidence, getEvidenceById, addEvidence, editEvidence, deleteEvidence, deleteAllEvidence } from "./routes/evidence.js"
 
@@ -51,10 +50,6 @@ app.use(deleteOfficer)
 // officer approved status
 app.use(approveRegRequest);
 app.use(rejectRegRequest);
-
-// prediction
-app.use(addPrediction)
-app.use(deletePrediction)
 
 // suspects
 app.use(allSuspects)

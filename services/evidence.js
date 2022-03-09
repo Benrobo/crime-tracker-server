@@ -64,10 +64,6 @@ export default class Evidence {
                             return util.sendJson(res, { error: true, message: "failed to fetch evidence: case doesnt exist" }, 404)
                         }
 
-                        // refrence
-                        // const q3 = `SELECT suspects.id,users."userName", suspects."caseId", suspects."suspectName", suspects."caseId", suspects.note, suspects.address, suspects.relation, suspects."userId", cases."officerId", cases."caseName",prediction.rank, suspects."suspectImg" FROM suspects INNER JOIN cases ON cases.id=suspects."caseId" INNER JOIN prediction ON suspects."caseId"=cases."id" INNER JOIN users ON users."userId"=cases."userId" WHERE suspects."userId"=$1 AND suspects."caseId"=$2`
-
-                        // check if suspect already exist in suspects table
                         const q3 = `SELECT 
                                         evidence.id,
                                         evidence."userId",
@@ -77,14 +73,14 @@ export default class Evidence {
                                         evidence.evidence,
                                         evidence."note",
                                         evidence."created_at",
-                                        prediction.rank,
-                                        prediction."suspectId"
+                                        suspects.rank,
+                                        suspects."suspectName"
                                     FROM 
-                                        evidence 
-                                    INNER JOIN 
-                                        prediction 
-                                    ON 
-                                        prediction."caseId"=evidence."caseId"
+                                        evidence
+                                    INNER JOIN
+                                        suspects
+                                    ON
+                                        suspects."id"=evidence."suspectId"
                                     WHERE 
                                         evidence."caseId"=$1`
                         db.query(q3, [caseId.trim()], (err, data3) => {
@@ -157,14 +153,14 @@ export default class Evidence {
                                         evidence.evidence,
                                         evidence."note",
                                         evidence."created_at",
-                                        prediction.rank,
-                                        prediction."suspectId"
+                                        suspects.rank,
+                                        suspects."suspectName"
                                     FROM 
                                         evidence 
                                     INNER JOIN 
-                                        prediction 
+                                        suspects 
                                     ON 
-                                        prediction."caseId"=evidence."caseId"
+                                        suspects."id"=evidence."suspectId"
                                     WHERE 
                                         evidence."caseId"=$1 AND evidence.id=$2`
                         db.query(q3, [caseId.trim(), evidenceId.trim()], (err, data3) => {
@@ -361,8 +357,8 @@ export default class Evidence {
                                     return util.sendJson(res, { error: true, message: "failed: cant update evidence which doesnt exist" }, 404)
                                 }
 
-                                const sql = `UPDATE evidence SET "caseId"=$1, "suspectName"=$2, evidence=$3, "suspectId"=$4, note=$5 WHERE "userId"=$6 AND "caseId"=$7`
-                                db.query(sql, [caseId.trim(), suspectName.trim(), evidence.trim(), suspectId.trim(), note.trim(), userId.trim(), caseId.trim()], (err) => {
+                                const sql = `UPDATE evidence SET "caseId"=$1, "suspectName"=$2, evidence=$3, "suspectId"=$4, note=$5 WHERE "userId"=$6 AND id=$7 AND "caseId"=$8`
+                                db.query(sql, [caseId.trim(), suspectName.trim(), evidence.trim(), suspectId.trim(), note.trim(), userId.trim(), evidenceId.trim(), caseId.trim()], (err) => {
                                     if (err) {
                                         return util.sendJson(res, { error: true, message: err.message }, 400)
                                     }

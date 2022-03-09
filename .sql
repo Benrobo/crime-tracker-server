@@ -28,16 +28,6 @@
     "created_at" TEXT NOT NULL
 );
 
-3. CREATE TABLE "prediction"(
-    id TEXT NOT NULL unique primary key,
-    "userId" TEXT NOT NULL,
-    "caseName" TEXT NOT NULL,
-    "caseId" TEXT NOT NULL,
-    "suspectId" TEXT NOT NULL,
-    "rank" TEXT NOT NULL,
-    "created_at" TEXT NOT NULL
-);
-
 CREATE TABLE "suspects"(
     id TEXT NOT NULL unique primary key,
     "userId" TEXT NOT NULL,
@@ -47,6 +37,7 @@ CREATE TABLE "suspects"(
     "address" TEXT NOT NULL,
     "relation" TEXT NOT NULL,
     "suspectImg" TEXT NOT NULL,
+    "rank" TEXT NOT NULL,
     "note" TEXT NOT NULL,
     "created_at" TEXT NOT NULL
 );

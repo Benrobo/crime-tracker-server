@@ -64,18 +64,7 @@ export default class Suspects {
                             return util.sendJson(res, { error: true, message: "failed to fetch suspect: case doesnt exist" }, 404)
                         }
 
-                        // check prediction table for any added prediction based on case
-                        const q3 = `SELECT * FROM prediction WHERE "caseId"=$1`
-                        db.query(q3, [caseId.trim()], (err, data3) => {
-                            if (err) {
-                                return util.sendJson(res, { error: true, message: err.message }, 400)
-                            }
-
-                            // determine what type of query to used when prediction is empty or not
-                            // this way ibnstead of gettiung empty result when joining the table we simply get empty rank
-                            let q4;
-                            const check = data3.rowCount === 0 ?
-                                q4 = `SELECT 
+                        let q4 = `SELECT 
                                     suspects.id,
                                     users."userName", 
                                     suspects."caseId", 
@@ -88,35 +77,8 @@ export default class Suspects {
                                     suspects."userId", 
                                     cases."officerId", 
                                     cases."caseName",
-                                    suspects."suspectImg" 
-                                FROM 
-                                    suspects 
-                                INNER JOIN 
-                                    users 
-                                ON 
-                                    users."userId"=suspects."userId" 
-                                INNER JOIN 
-                                    cases 
-                                ON 
-                                    cases.id=suspects."caseId"
-                                WHERE 
-                                    suspects."caseId"=$1`
-                                :
-                                q4 = `SELECT 
-                                    suspects.id,
-                                    users."userName", 
-                                    suspects."caseId", 
-                                    suspects."suspectName", 
-                                    suspects."caseId", 
-                                    suspects.note, 
-                                    suspects.address, 
-                                    suspects."phoneNumber",
-                                    suspects.relation, 
-                                    suspects."userId", 
-                                    cases."officerId", 
-                                    cases."caseName",
-                                    prediction.rank, 
-                                    suspects."suspectImg" 
+                                    suspects."suspectImg",
+                                    suspects.rank
                                 FROM 
                                     suspects 
                                 INNER JOIN 
@@ -127,20 +89,15 @@ export default class Suspects {
                                     cases 
                                 ON 
                                     cases.id=suspects."caseId" 
-                                INNER JOIN 
-                                    prediction 
-                                ON 
-                                    suspects."caseId"=prediction."caseId" 
                                 WHERE 
                                     suspects."caseId"=$1`
 
-                            db.query(q4, [caseId.trim()], (err, data4) => {
-                                if (err) {
-                                    return util.sendJson(res, { error: true, message: err.message }, 400)
-                                }
+                        db.query(q4, [caseId.trim()], (err, data4) => {
+                            if (err) {
+                                return util.sendJson(res, { error: true, message: err.message }, 400)
+                            }
 
-                                return util.sendJson(res, { error: false, data: data4.rows }, 200)
-                            })
+                            return util.sendJson(res, { error: false, data: data4.rows }, 200)
                         })
                     })
                 })
@@ -156,8 +113,8 @@ export default class Suspects {
         }
 
         if (payload && Object.entries(payload).length > 0) {
-            if (payload.userId === undefined || payload.caseId === undefined || payload.suspectName === undefined || payload.phoneNumber === undefined || payload.address === undefined || payload.relation === undefined || payload.note === undefined || payload.suspectImg === undefined) {
-                return util.sendJson(res, { error: true, message: "payload requires a valid fields [userid,caseid,suspectName, address, relation, note, suspectImg] but got undefined" }, 400)
+            if (payload.userId === undefined || payload.caseId === undefined || payload.suspectName === undefined || payload.phoneNumber === undefined || payload.address === undefined || payload.relation === undefined || payload.note === undefined || payload.suspectImg === undefined || payload.rank === undefined) {
+                return util.sendJson(res, { error: true, message: "payload requires a valid fields [userid,caseid,suspectName, address, relation, note, suspectImg, rank] but got undefined" }, 400)
             }
 
             if (payload.userId === "") {
@@ -184,6 +141,9 @@ export default class Suspects {
             if (payload.suspectImg === "") {
                 return util.sendJson(res, { error: true, message: "adding suspects requires a valid suspectImg but got none" }, 400)
             }
+            if (payload.rank === "") {
+                return util.sendJson(res, { error: true, message: "adding suspects requires a valid rank but got none" }, 400)
+            }
 
             // validate phonenumber
             if (!util.validatePhonenumber(payload.phoneNumber.trim())) {
@@ -203,7 +163,7 @@ export default class Suspects {
                         return util.sendJson(res, { error: true, message: "fail to add suspect: user or officer [id] doesnt exist" }, 404)
                     }
 
-                    const { userId, caseId, suspectName, suspectImg, phoneNumber, relation, note, address } = payload;
+                    const { userId, caseId, suspectName, suspectImg, phoneNumber, rank, relation, note, address } = payload;
 
                     // check also if caseId is valid and exist
                     const q2 = `SELECT * FROM cases WHERE id=$1`;
@@ -229,8 +189,8 @@ export default class Suspects {
 
                             const id = util.genId()
                             const date = util.formatDate()
-                            const sql = `INSERT INTO suspects(id, "userId", "caseId", "suspectName", "phoneNumber", "address","relation", "suspectImg", note, "created_at") VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`;
-                            db.query(sql, [id, userId.trim(), caseId.trim(), suspectName.trim(), phoneNumber.trim(), address.trim(), relation.trim(), suspectImg.trim(), note.trim(), date.trim()], (err) => {
+                            const sql = `INSERT INTO suspects(id, "userId", "caseId", "suspectName", "phoneNumber", "address","relation", "rank", "suspectImg", note, "created_at") VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)`;
+                            db.query(sql, [id, userId.trim(), caseId.trim(), suspectName.trim(), phoneNumber.trim(), address.trim(), relation.trim(), rank.trim(), suspectImg.trim(), note.trim(), date.trim()], (err) => {
                                 if (err) {
                                     return util.sendJson(res, { error: true, message: err.message }, 400)
                                 }
