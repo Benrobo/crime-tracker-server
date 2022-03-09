@@ -64,49 +64,84 @@ export default class Suspects {
                             return util.sendJson(res, { error: true, message: "failed to fetch suspect: case doesnt exist" }, 404)
                         }
 
-                        // refrence
-                        // const q3 = `SELECT suspects.id,users."userName", suspects."caseId", suspects."suspectName", suspects."caseId", suspects.note, suspects.address, suspects.relation, suspects."userId", cases."officerId", cases."caseName",prediction.rank, suspects."suspectImg" FROM suspects INNER JOIN cases ON cases.id=suspects."caseId" INNER JOIN prediction ON suspects."caseId"=cases."id" INNER JOIN users ON users."userId"=cases."userId" WHERE suspects."userId"=$1 AND suspects."caseId"=$2`
-
-                        // check if suspect already exist in suspects table
-                        const q3 = `SELECT 
-                                        suspects.id,
-                                        users."userName", 
-                                        suspects."caseId", 
-                                        suspects."suspectName", 
-                                        suspects."caseId", 
-                                        suspects.note, 
-                                        suspects.address, 
-                                        suspects."phoneNumber",
-                                        suspects.relation, 
-                                        suspects."userId", 
-                                        cases."officerId", 
-                                        cases."caseName",
-                                        prediction.rank, 
-                                        suspects."suspectImg" 
-                                    FROM 
-                                        suspects 
-                                    INNER JOIN 
-                                        users 
-                                    ON 
-                                        users."userId"=suspects."userId" 
-                                    INNER JOIN 
-                                        cases 
-                                    ON 
-                                        cases.id=suspects."caseId" 
-                                    INNER JOIN 
-                                        prediction 
-                                    ON 
-                                        suspects."caseId"=prediction."caseId" 
-                                    WHERE 
-                                        suspects."caseId"=$1`
+                        // check prediction table for any added prediction based on case
+                        const q3 = `SELECT * FROM prediction WHERE "caseId"=$1`
                         db.query(q3, [caseId.trim()], (err, data3) => {
                             if (err) {
                                 return util.sendJson(res, { error: true, message: err.message }, 400)
                             }
 
-                            return util.sendJson(res, { error: false, data: data3.rows }, 200)
-                        })
+                            // determine what type of query to used when prediction is empty or not
+                            // this way ibnstead of gettiung empty result when joining the table we simply get empty rank
+                            let q4;
+                            const check = data3.rowCount === 0 ?
+                                q4 = `SELECT 
+                                    suspects.id,
+                                    users."userName", 
+                                    suspects."caseId", 
+                                    suspects."suspectName", 
+                                    suspects."caseId", 
+                                    suspects.note, 
+                                    suspects.address, 
+                                    suspects."phoneNumber",
+                                    suspects.relation, 
+                                    suspects."userId", 
+                                    cases."officerId", 
+                                    cases."caseName",
+                                    suspects."suspectImg" 
+                                FROM 
+                                    suspects 
+                                INNER JOIN 
+                                    users 
+                                ON 
+                                    users."userId"=suspects."userId" 
+                                INNER JOIN 
+                                    cases 
+                                ON 
+                                    cases.id=suspects."caseId"
+                                WHERE 
+                                    suspects."caseId"=$1`
+                                :
+                                q4 = `SELECT 
+                                    suspects.id,
+                                    users."userName", 
+                                    suspects."caseId", 
+                                    suspects."suspectName", 
+                                    suspects."caseId", 
+                                    suspects.note, 
+                                    suspects.address, 
+                                    suspects."phoneNumber",
+                                    suspects.relation, 
+                                    suspects."userId", 
+                                    cases."officerId", 
+                                    cases."caseName",
+                                    prediction.rank, 
+                                    suspects."suspectImg" 
+                                FROM 
+                                    suspects 
+                                INNER JOIN 
+                                    users 
+                                ON 
+                                    users."userId"=suspects."userId" 
+                                INNER JOIN 
+                                    cases 
+                                ON 
+                                    cases.id=suspects."caseId" 
+                                INNER JOIN 
+                                    prediction 
+                                ON 
+                                    suspects."caseId"=prediction."caseId" 
+                                WHERE 
+                                    suspects."caseId"=$1`
 
+                            db.query(q4, [caseId.trim()], (err, data4) => {
+                                if (err) {
+                                    return util.sendJson(res, { error: true, message: err.message }, 400)
+                                }
+
+                                return util.sendJson(res, { error: false, data: data4.rows }, 200)
+                            })
+                        })
                     })
                 })
             } catch (err) {
